@@ -14,7 +14,7 @@ One of the first idiosyncracies of using Lambda is how we package up and upload 
 import json
 import requests
 
-def lambda_handler(event, context):
+def main(event, context):
 
     joke = getJoke()
 
