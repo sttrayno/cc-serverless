@@ -6,7 +6,7 @@ You may also see serverless referred to as "Function as a Service" as all you as
 
 In this lab, we're going to create a serverless function which will return a status code of 200, much as we do in the containers example. However in doing this we'll be able to compare both approaches. For the purposes of this lab we're going to use probably the most popular serverless technology available today AWS Lambda, however there are many other examples of Serverless functions also available from other cloud providers including Azure and Google.
 
-## Packaging up our code and creating a Lambda function
+## More advanced Packaging up our code and creating a Lambda function
 
 One of the first idiosyncracies of using Lambda is how we package up and upload our code to the service, especially if you have library dependancies in Python which you need to package up with your code, in this example we have to do this for the requests module which isn't included in the Lambda python interpreter and has to be uploaded as a package.
 
