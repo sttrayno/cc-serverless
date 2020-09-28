@@ -4,11 +4,11 @@ Serverless computing is a fairly modern way of computing which changes the way w
 
 You may also see serverless referred to as "Function as a Service" as all you as the developer really need to do is provide your code and the cloud provider will handle all the other complexity around providing an infrastructure to run your code. This isn't always necessarily as easy as it sounds, but we'll go onto explore more here in this lab and give you atleast an idea how you as a developer can start to leverage Serverless.
 
-In this lab, we're going to create a serverless function which will return a status code of 200, much as we do in the containers example and include a joke which the Python code pulls from an API everytime the code runs. For the purposes of this lab we're going to use probably the most popular serverless technology available today AWS Lambda, however there are many other examples of Serverless functions also available from other cloud providers including Azure and Google.
+In this lab, we're going to create a simple serverless function which will return a status code of 200 and include a joke which the Python code dynamically pulls from an API everytime the code runs. For the purposes of this lab we're going to use probably the most popular serverless technology available today AWS Lambda, however there are many other examples of Serverless functions also available from other cloud providers including Azure and Google.
 
 ## Packaging up our code and creating a Lambda function
 
-One of the first idiosyncracies of using Lambda is how we package up and upload our code to the service, especially if you have library dependancies in Python which you need to package up with your code, in this example we have to do this for the requests module which isn't included in the Lambda python interpreter and has to be uploaded as a package. We'll get onto how we do this later but first lets start with our code, by creating a file called main.py and copying the below in. 
+In this section we're going to get into building our code and deploying. One of the first idiosyncracies of using Lambda is how we package up and upload our code to the service, especially if you have library dependancies in Python which you need to package up with your code, in this example function we have to do this for the requests module which isn't included in the Lambda python interpreter and has to be uploaded as a package at the same time we upload our code. We'll get onto how we do this later but first lets start with our code, you can either clone this repo and find it in the 'code' directory or create a file called main.py and copy the below in. 
 
 ```Python
 import json
@@ -18,7 +18,6 @@ def main(event, context):
 
     joke = getJoke()
 
-    # TODO implement
     return {
         'statusCode': 200,
         'body': json.dumps(joke)
@@ -37,14 +36,16 @@ def getJoke():
 
 ```
 
-To get our libraries in a new, project-local package directory use the pip command with the --target option.
+As you can see our code is fairly simple. We have two functions, the first main() calls the function getJoke() and then returns the output of the function to the user with a status code of 200. The second function getJoke() calls out to an API from icanhazdadjoke.com and gets a random joke from its database.
+
+As we're using the requests library to make an API call to this joke API we need to get our dependancies saved locally then package them in a zip file. To downlaod the our libraries in a new, project-local package directory we can use the pip command with the --target option.
 
 ```bash
 pip install --target ./package requests
 cd package
 ```
 
-Now thats done, create a ZIP archive of the dependencies. 
+Now thats done and we have the newly created ./package as a current directory, create a ZIP archive of the dependencies. 
 
 ```bash 
 zip -r9 ${OLDPWD}/function.zip .
@@ -88,7 +89,6 @@ Once you've created your gateway, it's time to add some resources and methods. F
 ## Invoking our API
 
 Now all thats left to do is to test out our API and invoke our function. 
-As you can see above theres an example JSON body that our function is expecting, edit this with your own credentials and details and paste this into the "Request Body" section of the form (ensuring a properly formatted JSON body is crucial for this to work correctly. When you reach the bottom of the form press the "Test" button and wait. The function may take up to 30 seconds to complete, as it runs you can refresh the Meraki dashboard to see the actions being carried out as the function runs, you should see the network being created and devices being updated as it goes. Once it's complete the response will show ""Success, network has been created!"" as the animated diagram shows below.
 
 ![](./images/invoke-api.gif)
 
