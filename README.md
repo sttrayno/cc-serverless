@@ -4,13 +4,40 @@ Serverless computing is a fairly modern way of computing which changes the way w
 
 You may also see serverless referred to as "Function as a Service" as all you as the developer really need to do is provide your code and the cloud provider will handle all the other complexity around providing an infrastructure to run your code. This isn't always necessarily as easy as it sounds, but we'll go onto explore more here in this lab and give you atleast an idea how you as a developer can start to leverage Serverless.
 
-In this lab, we're going to create a serverless function which will return a status code of 200, much as we do in the containers example. However in doing this we'll be able to compare both approaches. For the purposes of this lab we're going to use probably the most popular serverless technology available today AWS Lambda, however there are many other examples of Serverless functions also available from other cloud providers including Azure and Google.
+In this lab, we're going to create a serverless function which will return a status code of 200, much as we do in the containers example and include a joke which the Python code pulls from an API everytime the code runs. For the purposes of this lab we're going to use probably the most popular serverless technology available today AWS Lambda, however there are many other examples of Serverless functions also available from other cloud providers including Azure and Google.
 
-## More advanced Packaging up our code and creating a Lambda function
+## Packaging up our code and creating a Lambda function
 
-One of the first idiosyncracies of using Lambda is how we package up and upload our code to the service, especially if you have library dependancies in Python which you need to package up with your code, in this example we have to do this for the requests module which isn't included in the Lambda python interpreter and has to be uploaded as a package.
+One of the first idiosyncracies of using Lambda is how we package up and upload our code to the service, especially if you have library dependancies in Python which you need to package up with your code, in this example we have to do this for the requests module which isn't included in the Lambda python interpreter and has to be uploaded as a package. We'll get onto how we do this later but first lets start with our code, by creating a file called main.py and copying the below in. 
 
-To begin, on your local machine navigate to the same directory as your main.py file, if you have cloned this repo that is under the directory 'code'. To get our libraries in a new, project-local package directory use the pip command with the --target option.
+```Python
+import json
+import requests
+
+def lambda_handler(event, context):
+
+    joke = getJoke()
+
+    # TODO implement
+    return {
+        'statusCode': 200,
+        'body': json.dumps(joke)
+    }
+
+
+def getJoke():
+
+    url = "https://icanhazdadjoke.com"
+    headers = {
+        "Accept":"application/json"
+    }
+
+    response = requests.request("GET", url=url, headers=headers)
+    return response.json()["joke"]
+
+```
+
+To get our libraries in a new, project-local package directory use the pip command with the --target option.
 
 ```bash
 pip install --target ./package requests
@@ -54,7 +81,7 @@ First we need to create our API gateway, to do this search for the "API Gateway"
 
 ![](./images/create-gateway.gif)
 
-Once you've created your gateway, it's time to add some resources and methods. From the resources section, select actions and click on create resource. This will be the REST endpoint that you're API will serve. Once you've gave it a name then select create method and select "POST"
+Once you've created your gateway, it's time to add some resources and methods. From the resources section, select actions and click on create resource. This will be the REST endpoint that you're API will serve. Once you've gave it a name then select create method and select "GET"
 
 ![](./images/create-method.gif)
 
@@ -68,9 +95,5 @@ As you can see above theres an example JSON body that our function is expecting,
 Now all that's left to do is deploy your API. Using the "deploy API" option from the actions drop down. Create a new stage, call it whatever you want here. 
 
 ![](./images/deploy-api.gif)
-
-Finally, now the API has been published, it can be accessed using tools such as Postman as can be seen from the graphic below.
-
-![](./images/postman.gif)
 
 Congratulations, you've just set up your first Lambda function and built your first API gateway! Great work!
