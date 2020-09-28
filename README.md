@@ -1,10 +1,10 @@
 # Code Clan Serverless 101
 
-Serverless computing is a fairly new concept.
+Serverless computing is a fairly new concept which rather than paying for the infrastrcture which your application or service will run on a 24/7 basis you are charged per execution of your code.
 
 You may also see it explained as "Function as a Service" as all you as the developer really need to do is provide your code and the cloud provider will handle all the other complexity around providing an infrastructure to run your code. This isn't always necessarily as easy as it sounds, but we'll go onto explore more here in this lab and give you atleast an idea how you as a developer can start to leverage Serverless.
 
-In this lab, we're going to create a serverless function which will host a small webserver, much as we do in the containers example. However in doing this we'll be able to compare both approaches. For the purposes of this lab we're going to use probably the most popular serverless technology. AWS Lambda
+In this lab, we're going to create a serverless function which will host a small webserver, much as we do in the containers example. However in doing this we'll be able to compare both approaches. For the purposes of this lab we're going to use probably the most popular serverless technology available today AWS Lambda, however there are many other examples of Serverless functions also available from other cloud providers including Azure and Google.
 
 ## Packaging up our code and creating a Lambda function
 
