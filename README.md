@@ -1,4 +1,4 @@
-# Code Clan Serverless 101
+# Workshop Serverless 101
 
 Serverless computing is a  modern approach to computing which changes the way we build, deploy manage and consume infrastructure. In the past when building software you would deploy the needed resources in terms of hardware or virtual machines then deploy your code ontop of that. Serverless changes this way of working and means rather than paying for the infrastructure which your application or service will run on a 24/7 basis you are charged per execution of your code.
 
